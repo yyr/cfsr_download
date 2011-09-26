@@ -11,8 +11,15 @@
 # $yyyy/$yyyy$mm/$yyyy$mm$dd
 #
 #========================================================
-#define the period
 
+#define your local path for data and tools
+local_path=/disk11/yagnesh/cfsr/
+wgrib2=/home/yagnesh/local/bin/wgrib2
+delete_old=NO
+
+#########################################################
+#  NO NEED TO CHANGE THINGS BELOW
+########################################################
 function usage() {
     echo "USAGE: $1 startdate enddate"
     echo "EG: $1 1980010100 1980010106"
@@ -24,7 +31,7 @@ if [ $# -lt 2  ]; then
 fi
 
 wrong_arg=64
-sdate_len=10                    #  arguments length
+sdate_len=10                    #  arguments length (yyyymmddhh)
 
 sdate=$1
 edate=$2
@@ -35,19 +42,6 @@ echo "sdate: " $sdate  "edate: " $edate
 [ ${#sdate} -eq $sdate_len -a ${#edate} -eq $sdate_len ] ||
 echo "length of the arguments are not good" && exit $wrong_arg
 
-#define your local path for data and tools
-local_path=/disk11/yagnesh/cfsr/
-wgrib2=/home/yagnesh/local/bin/wgrib2
-delete_old=NO
-
-echo "Please make sure your data were saved in the following structure
-      $local_path/\$yyyy/\$yyyy\$mm/\$yyyy\$mm\$dd/
-      then comment out line 23-26 in the script to excute it again"
-exit
-
-#########################################################
-#  NO NEED TO CHANGE THINGS BELOW
-########################################################
 remote_host=http://drought.geo.msu.edu
 remote_path=data/CFSR4WRF/data
 cfsrprefix=CFSR_
