@@ -16,7 +16,7 @@ local_path=./
 cfsrprefix=CFSR_
 suffix=grb2
 
-
+# -------------------------
 date=$sdate
 while [ $date -le $edate ]
 do

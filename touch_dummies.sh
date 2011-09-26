@@ -12,11 +12,10 @@ sdate=2000010100
 edate=2002010200
 
 local_path=./
-
 cfsrprefix=CFSR_
-oldsuffix=grb2
-newsuffix=grib2
+suffix=grb2
 
+# ----------------------------------
 date=$sdate
 while [ $date -le $edate ]
 do
@@ -27,7 +26,7 @@ do
     local_dir=$local_path/$yyyy/$yyyy$mm/$yyyy$mm$dd
     # mkdir -p $local_dir
 
-    touch $cfsrprefix$yyyy$mm$dd$hh.$oldsuffix
+    touch $cfsrprefix$yyyy$mm$dd$hh.$suffix
 
     datestring="$yyyy-$mm-$dd $hh:00:00"
     date=`date -u +"%Y%m%d%H" -d "+6 hours $datestring"`
