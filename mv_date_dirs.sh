@@ -1,37 +1,21 @@
 #!/bin/bash
 #
 # Copyright (C) Yagnesh Raghava Yakkala. http://yagnesh.org
-#    File: moving.sh
+#    File: mv_date_dirs.sh
 #  Author: Yagnesh Raghava Yakkala <yagnesh@NOSPAM.live.com>
 # Created: Monday, September 26 2011
 # License: GPL v3 or later.  <http://www.gnu.org/licenses/gpl.html>
 #
 
 # Description:
-sdate=1980010100
-edate=1980010106
+sdate=2000010100
+edate=2002010200
 
-#define your local path for data and tools
 local_path=./
-wgrib2=/usr/local/bin/wgrib2
-delete_old=NO
 
-echo "Please make sure your data were saved in the following structure
-      $local_path/\$yyyy/\$yyyy\$mm/\$yyyy\$mm\$dd/
-      then comment out line 23-26 in the script to excute it again"
-
-exit
-
-#########################################################
-#  NO NEED TO CHANGE THINGS BELOW
-########################################################
-remote_host=http://drought.geo.msu.edu
-remote_path=data/CFSR4WRF/data
 cfsrprefix=CFSR_
-oldsuffix=grb2
-newsuffix=grib2
+suffix=grb2
 
-set -x
 
 date=$sdate
 while [ $date -le $edate ]
@@ -42,15 +26,15 @@ do
     hh=`echo $date |cut -c9-10`
     local_dir=$local_path/$yyyy/$yyyy$mm/$yyyy$mm$dd
     mkdir -p $local_dir
-#    cd $local_dir
 
+    fname=${cfsrprefix}$yyyy$mm$dd$hh.$suffix
+
+    if [ -f $fname ]; then
+        mv $fname $local_dir/
+    fi
 
     datestring="$yyyy-$mm-$dd $hh:00:00"
     date=`date -u +"%Y%m%d%H" -d "+6 hours $datestring"`
 done
 
-# End of script
-#-------------------
-
-
-# moving.sh ends here
+# mv_date_dirs.sh ends here
