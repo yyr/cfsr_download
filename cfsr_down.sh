@@ -40,7 +40,7 @@ echo "sdate: " $sdate  "edate: " $edate
 
 # check if the sdate/edate are okay (not foolproof just checks the length)
 [ ${#sdate} -eq $sdate_len -a ${#edate} -eq $sdate_len ] ||
-echo "length of the arguments are not good" && exit $wrong_arg
+exit $wrong_arg
 
 remote_host=http://drought.geo.msu.edu
 remote_path=data/CFSR4WRF/data
