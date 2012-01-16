@@ -14,7 +14,7 @@
 
 #define your local path for data and tools
 local_path=/media/CFSR4WRF/cfsr/
-wgrib2=/home/yagnesh/local/bin/wgrib2
+wgrib2=/home/yagnesh/bin/wgrib2
 
 #########################################################
 #  NO NEED TO CHANGE THINGS BELOW
@@ -47,7 +47,7 @@ cfsrprefix=CFSR_
 newsuffix=grib2
 
 # set -x
-logfile=$local_path/log.$$
+logfile=$local_path/fresh.$$
 
 date=$sdate
 while [ $date -le $edate ]
@@ -64,13 +64,15 @@ do
 
     fname=${cfsrprefix}$yyyy$mm$dd$hh.$newsuffix
 
-    if [ ! -f $fname ]; then
-
-        echo "downloading $fname directly"
-        wget -c -np -nH -nc $remote_host/$remote_path/$yyyy/$yyyy$mm/$yyyy$mm$dd/${cfsrprefix}$yyyy$mm$dd$hh.$newsuffix
-        [ $? -ne 0 ] && echo "$fname" >> $logfile
-
+    if [ -f $fname ]; then
+#check integrity of the data
+        nline=`$wgrib2 $fname |wc -l`
+        [ $? -ne 0 ] &&   echo "$fname" >> $logfile
+        [ $nline -ne 204 ] &&         echo "$fname" >> $logfile
+    else
+        echo "$fname" >> $logfile
     fi
+
     datestring="$yyyy-$mm-$dd $hh:00:00"
     date=`date -u +"%Y%m%d%H" -d "+6 hours $datestring"`
 done
